@@ -1,2 +1,2 @@
 # cotizador
-Cotizador de seguros
+Cotizador de seguros de autos
