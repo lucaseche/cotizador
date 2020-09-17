@@ -5,55 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cotizador</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/style.css">
+  <script defer src="static/app.js"></script>
 </head>
 <body>
-  <div class="container">
-    <form>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="inputBrand">Marca: *</label>
-            <input type="text" class="form-control" id="inputYear">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="inputModel">Modelo: *</label>
-            <input type="text" class="form-control" id="inputYear">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="inputYear">Año: *</label>
-            <input type="number" class="form-control" id="inputYear" aria-describedby="yearHelp" min=2000 max=2020>
-            <small id="yearHelp">Año de patentamiento del vehiculo</small>
-          </div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col">
-              <legend class="col-form-label">Posee GNC: *</legend>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label" for="yesGNC">Si</label>
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="yesGNC" value="option1">
-              </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label" for="noGNC">No</label>
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="noGNC" value="option2">
-              </div>
+  <div class="page-content">
+    <div class="container w-75 border">
+      <form>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="inputBrand">Marca: *</label>
+              <input type="text" class="form-control" id="inputYear">
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label for="inputGNCPrice">Valor del equipo GNC: *</label>
-                <input type="text" class="form-control" id="inputGNCPrice">
-              </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="inputModel">Modelo: *</label>
+              <input type="text" class="form-control" id="inputYear">
             </div>
           </div>
         </div>
-      </div>
-    </form>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="inputYear">Año: *</label>
+              <input type="number" class="form-control" id="inputYear" aria-describedby="yearHelp" min=2000 max=2020>
+              <small id="yearHelp">Año de patentamiento del vehiculo</small>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <legend class="col-form-label">Posee GNC: *</legend>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="yesGNC">Si</label>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="yesGNC" value="option1">
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="noGNC">No</label>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="noGNC" value="option2">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="inputGNCPrice">Valor del equipo GNC: *</label>
+                  <input type="text" class="form-control" id="inputGNCPrice">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col align-rigth">
+            <button type="button" class="btn m-3 btn-secondary float-right">Cotizar</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </body>
 </html>
