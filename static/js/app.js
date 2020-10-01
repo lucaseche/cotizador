@@ -20,13 +20,8 @@ class Car {
 [X] - Capturar el submit del boton cotizar
 [X] - Guardar datos del auto cotizado en el localStorage en el submit del boton cotizar
 [X] - Obtener los datos del ultimo auto cotizado guardado en el localStorage si es que hay uno
-
+[ ] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
 */
-
-// localStorage.setItem('quotedCar', JSON.stringify({"make":"Hyundai","model":"Elantra","year":2005,"price":"$2892072.11"}));
-
-// despues de cargar el DOM, cargo las marcas en el selector
-// document.addEventListener('DOMContentLoaded', fillMakeSelect);
 
 const makeSelect = document.querySelector('#makeSelect');
 const modelSelect = document.querySelector('#modelSelect');
