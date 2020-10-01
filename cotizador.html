@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>Cotizador</title>
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="static/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  
+  <script defer src="static/js/cars.js"></script>
   <script defer src="static/js/app.js"></script>
 </head>
 <body>
@@ -26,24 +30,28 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="make">Marca</label>
-              <select class="form-control" id="make"></select>
+              <label for="makeSelect">Marca</label>
+              <select class="form-control" id="makeSelect">
+                <option value="empty-make"></option>
+              </select>
             </div>
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="model">Modelo</label>
-              <select class="form-control" id="model"></select>
-              <!-- <input type="text" class="form-control" id="inputYear"> -->
+              <label for="modelSelect">Modelo</label>
+              <select class="form-control" id="modelSelect">
+                <option value="empty-model"></option>
+              </select>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="year">Año</label>
-              <select class="form-control" id="year"></select>
-              <!-- <input type="number" class="form-control" id="inputYear" aria-describedby="yearHelp" min=2000 max=2020> -->
+              <label for="yearSelect">Año</label>
+              <select class="form-control" id="yearSelect">
+                <option value="empty-year"></option>
+              </select>
               <small id="yearHelp">Año de patentamiento del vehiculo</small>
             </div>
           </div>
@@ -52,19 +60,19 @@
               <div class="col">
                 <legend class="col-form-label">Equipo GNC</legend>
                 <div class="form-check form-check-inline">
-                  <label class="form-check-label p-1" for="yesGNC">Si</label>
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="yesGNC" value="option1">
+                  <label class="form-check-label p-1" for="yesGncInput">Si</label>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="yesGncInput" value="option1">
                 </div>
                 <div class="form-check form-check-inline">
-                  <label class="form-check-label p-1" for="noGNC">No</label>
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="noGNC" value="option2" checked>
+                  <label class="form-check-label p-1" for="noGncInput">No</label>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="noGncInput" value="option2" checked>
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <!-- <label for="inputGNCPrice">Valor equipo GNC</label> -->
                   <legend class="col-form-label">Valor del equipo</legend>
-                  <input type="text" class="form-control" id="inputGNCPrice" disabled>
+                  <input type="text" class="form-control" id="gncPriceInput" disabled>
                 </div>
               </div>
             </div>
@@ -72,7 +80,7 @@
         </div>
         <div class="row">
           <div class="col align-rigth">
-            <button type="button" class="btn m-3 btn-outline-dark float-right">Cotizar</button>
+            <button type="button" id="btnQuote" class="btn m-3 btn-outline-dark float-right">Cotizar</button>
           </div>
         </div>
       </form>
