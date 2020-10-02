@@ -20,7 +20,9 @@ class Car {
 [X] - Capturar el submit del boton cotizar
 [X] - Guardar datos del auto cotizado en el localStorage en el submit del boton cotizar
 [X] - Obtener los datos del ultimo auto cotizado guardado en el localStorage si es que hay uno
-[ ] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
+[X] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
+[ ] - Agregar JQuery
+[ ] - Agregar animaciones
 */
 
 const makeSelect = document.querySelector('#makeSelect');
@@ -57,7 +59,6 @@ function getCar(event){
     */
     
     fillMakeSelect();
-
     if(localStorage.getItem('quotedCar') !== null){
         loadQuotedCar();
     }
@@ -68,30 +69,43 @@ function loadQuotedCar(){
     Esta funcion completa los campos del formulario con los datos del auto cotizado previamente.
     */
 
+    // obtengo el auto almacenado en localStorage
     const quotedCar = JSON.parse(localStorage.getItem('quotedCar'));
+    
+    // ya tengo el select de marcas cargado, pero me falta seleccionar la correcta
     makeSelect.childNodes.forEach(make => {
         if(make.textContent == quotedCar.make){
             make.selected = 'selected';
         }
     })
 
-    // simulo un cambio en el select de marca
+    // simulo un cambio en el select de marca, esta simulacion es para que se cargue el select de modelos
     makeSelect.dispatchEvent(changeEvent);
 
+    // ya tengo el select de modelos cargado, pero me falta seleccionar el correcto
     modelSelect.childNodes.forEach(model => {
         if(model.textContent == quotedCar.model){
             model.selected = 'selected';
         }
     })
 
-    // simulo un cambio en el select de modelo
+    // simulo un cambio en el select de modelo, esta simulacion es para que se cargue el select de años
     modelSelect.dispatchEvent(changeEvent);
 
+    // ya tengo el select de años cargado, pero me falta seleccionar el correcto
     yearSelect.childNodes.forEach(year => {
         if(year.textContent == quotedCar.year){
             year.selected = 'selected';
         }
     })
+
+    // si el auto tiene gnc, tengo que marcar la opcion 'si' y cargar el precio del equipo
+    if(quotedCar.gnc){
+        noGncInput.checked = false;
+        yesGncInput.checked = true;
+        gncPriceInput.disabled = false;
+        gncPriceInput.value = quotedCar.gncPrice;
+    }
 }
 
 function fillMakeSelect(){
