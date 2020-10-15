@@ -21,8 +21,8 @@ class Car {
 [X] - Guardar datos del auto cotizado en el localStorage en el submit del boton cotizar
 [X] - Obtener los datos del ultimo auto cotizado guardado en el localStorage si es que hay uno
 [X] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
-[ ] - Pasar la "db" de autos a un JSON
-[ ] - Cargar la "db" de autos en una variable utilizando Ajax
+[X] - Pasar la "db" de autos a un JSON
+[X] - Cargar la "db" de autos en una variable utilizando Ajax
 [ ] - Agregar JQuery
 [ ] - Agregar animaciones
 [ ] - Cambiar estilo de comentarios por JSDoc
@@ -61,27 +61,19 @@ function loadEventListeners(){
  * Esta funcion busca la informacion del ultimo auto cotizado almacenado en localStorage.
  * Si encuentra un auto, completa los campos del formulario con los datos del auto encontrado.
  * Si no encuentra un auto, llama a la funcion que carga las marcas de autos.
- * @event objeto evento ('DOMContentLoaded').
+ * @event 'DOMContentLoaded'
  */
 function getCar(event){
     
-    loadCars('cars.JSON');
+    $.getJSON('cars.json', function(data){
+        data.forEach(car => {
+            cars.push(car)
+        })
+    
     fillMakeSelect();
     if(localStorage.getItem('quotedCar') !== null){
         loadQuotedCar();
     }
-}
-
-
-function loadCars(dbFile){
-    $.getJSON(dbFile, function(data){
-        data.forEach(car => {
-            // console.log(car.make)
-            cars.push(car)
-        })
-    })
-    cars.forEach(function(auto){
-        console.log(auto)
     })
 }
 
@@ -187,15 +179,16 @@ function getMakes(){
     // cars.forEach(function(entry){
     //     console.log(entry)
     // })
-    // cars.forEach(car => {
-    //     console.log(car)
-    //     makes.add(car.make);
-    //     console.log(makes)
-    // });
+    cars.forEach(car => {
+        // console.log(car)
+        makes.add(car.make);
+        // console.log(makes)
+    });
     // console.log(cars)
-    for(var i = 0; i < cars.length; i ++){
-        console.log(cars[i])
-    }
+    // console.log(cars.length)
+    // for(var i = 0; i < cars.length; i ++){
+    //     console.log(cars[i])
+    // }
 
     // convierto el set en un array para poder ordenarlo alfabeticamente
     return [...makes].sort();
