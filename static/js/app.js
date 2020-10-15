@@ -21,8 +21,14 @@ class Car {
 [X] - Guardar datos del auto cotizado en el localStorage en el submit del boton cotizar
 [X] - Obtener los datos del ultimo auto cotizado guardado en el localStorage si es que hay uno
 [X] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
+[ ] - Pasar la "db" de autos a un JSON
+[ ] - Cargar la "db" de autos en una variable utilizando Ajax
 [ ] - Agregar JQuery
 [ ] - Agregar animaciones
+[ ] - Cambiar estilo de comentarios por JSDoc
+[ ] - Agregar validador numerico al campo de valor del equipo gnc
+[ ] - Definir template para los planes de cotizacion
+
 */
 
 const makeSelect = document.querySelector('#makeSelect');
@@ -32,6 +38,8 @@ const yesGncInput = document.querySelector('#yesGncInput');
 const noGncInput = document.querySelector('#noGncInput');
 const gncPriceInput = document.querySelector('#gncPriceInput');
 const btnQuote = document.querySelector('#btnQuote');
+const cars = [];
+
 
 // creo un evento para poder simular el 'change' desde funciones
 const changeEvent = document.createEvent('HTMLEvents');
@@ -49,20 +57,34 @@ function loadEventListeners(){
     btnQuote.addEventListener('click', quoteCarInsurance);
 }
 
+/**
+ * Esta funcion busca la informacion del ultimo auto cotizado almacenado en localStorage.
+ * Si encuentra un auto, completa los campos del formulario con los datos del auto encontrado.
+ * Si no encuentra un auto, llama a la funcion que carga las marcas de autos.
+ * @event objeto evento ('DOMContentLoaded').
+ */
 function getCar(event){
-    /*
-    Esta funcion busca la informacion del ultimo auto cotizado almacenado en localStorage.
-    Si encuentra un auto, completa los campos del formulario con los datos del auto encontrado.
-    Si no encuentra un auto, llama a la funcion que carga las marcas de autos.
-    Args:
-        event: objeto evento ('DOMContentLoaded').
-    */
     
+    loadCars('cars.JSON');
     fillMakeSelect();
     if(localStorage.getItem('quotedCar') !== null){
         loadQuotedCar();
     }
 }
+
+
+function loadCars(dbFile){
+    $.getJSON(dbFile, function(data){
+        data.forEach(car => {
+            // console.log(car.make)
+            cars.push(car)
+        })
+    })
+    cars.forEach(function(auto){
+        console.log(auto)
+    })
+}
+
 
 function loadQuotedCar(){
     /*
@@ -108,6 +130,7 @@ function loadQuotedCar(){
     }
 }
 
+
 function fillMakeSelect(){
     /*
     Esta funcion completa el select de marcas.
@@ -118,6 +141,7 @@ function fillMakeSelect(){
     const makes = getMakes();
     fillSelect(makes, makeSelect);
 }
+
 
 function fillModelSelect(event){
     /*
@@ -134,6 +158,7 @@ function fillModelSelect(event){
     modelSelect.dispatchEvent(changeEvent);
 }
 
+
 function fillYearSelect(event){
     /*
     Esta funcion completa los modelos de auto para la marca seleccionada.
@@ -148,6 +173,7 @@ function fillYearSelect(event){
     fillSelect(years, yearSelect);
 }
 
+
 function getMakes(){
     /*
     Esta funcion obtiene las marcas de autos del set de datos 'cars.js'.
@@ -157,14 +183,24 @@ function getMakes(){
 
     // utilizo un set porque no guarda repetidos
     const makes = new Set();
-    
-    cars.forEach(car => {
-        makes.add(car.make);
-    });
+    // console.log(cars)
+    // cars.forEach(function(entry){
+    //     console.log(entry)
+    // })
+    // cars.forEach(car => {
+    //     console.log(car)
+    //     makes.add(car.make);
+    //     console.log(makes)
+    // });
+    // console.log(cars)
+    for(var i = 0; i < cars.length; i ++){
+        console.log(cars[i])
+    }
 
     // convierto el set en un array para poder ordenarlo alfabeticamente
     return [...makes].sort();
 }
+
 
 function getModels(selectedMake){
     /*
@@ -188,6 +224,7 @@ function getModels(selectedMake){
     return [...models].sort();
 }
 
+
 function getYears(selectedModel){
     /*
     Esta funcion obtiene los años de modelos de autos del set de datos 'cars.js' para el modelo seleccionada.
@@ -210,6 +247,7 @@ function getYears(selectedModel){
     return [...years].sort();
 }
 
+
 function fillSelect(arr, select){
     /*
     Esta funcion completa un select con los elementos de un array.
@@ -228,6 +266,7 @@ function fillSelect(arr, select){
     });
 }
 
+
 function enableGncPriceInput(){
     /*
     Esta funcion habilita el input de valor para el equipo gnc.
@@ -236,6 +275,7 @@ function enableGncPriceInput(){
         gncPriceInput.disabled = false;    
     }
 }
+
 
 function disableGncPriceInput(){
     /*
@@ -248,6 +288,7 @@ function disableGncPriceInput(){
         gncPriceInput.value = '';
     }
 }
+
 
 function quoteCarInsurance(event){
     /*

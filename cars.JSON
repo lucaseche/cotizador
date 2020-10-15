@@ -1,4 +1,4 @@
-var cars = [{"make":"Hyundai","model":"Elantra","year":2005,"price":"$2892072.11"},
+[{"make":"Hyundai","model":"Elantra","year":2005,"price":"$2892072.11"},
 {"make":"Pontiac","model":"Firebird Formula","year":1992,"price":"$2775022.33"},
 {"make":"BMW","model":"Z4","year":2004,"price":"$588066.11"},
 {"make":"Mercedes-Benz","model":"Sprinter","year":2011,"price":"$2686695.62"},
