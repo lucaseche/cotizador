@@ -1,11 +1,12 @@
 // esta clase podria estar en otro archivo
 class Car {
-    constructor(make, model, year, gnc, gncPrice) {
+    constructor(make, model, year, gnc, gncPrice, price) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.gnc = gnc;
         this.gncPrice = gncPrice;
+        this.price = price;
     }
 }
 
@@ -23,11 +24,11 @@ class Car {
 [X] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
 [X] - Pasar la "db" de autos a un JSON
 [X] - Cargar la "db" de autos en una variable utilizando Ajax
-[ ] - Agregar JQuery
+[X] - Agregar JQuery
 [ ] - Agregar animaciones
 [ ] - Cambiar estilo de comentarios por JSDoc
-[ ] - Agregar validador numerico al campo de valor del equipo gnc
-[ ] - Definir template para los planes de cotizacion
+[X] - Agregar validador numerico al campo de valor del equipo gnc
+[X] - Definir template para los planes de cotizacion
 
 */
 
@@ -38,6 +39,9 @@ const yesGncInput = document.querySelector('#yesGncInput');
 const noGncInput = document.querySelector('#noGncInput');
 const gncPriceInput = document.querySelector('#gncPriceInput');
 const btnQuote = document.querySelector('#btnQuote');
+const carData = document.querySelector('#carData');
+const fullPlanCard = document.querySelector('#fullPlanCard');
+const basicPlanCard = document.querySelector('#basicPlanCard');
 const cars = [];
 
 
@@ -58,9 +62,8 @@ function loadEventListeners(){
 }
 
 /**
- * Esta funcion busca la informacion del ultimo auto cotizado almacenado en localStorage.
- * Si encuentra un auto, completa los campos del formulario con los datos del auto encontrado.
- * Si no encuentra un auto, llama a la funcion que carga las marcas de autos.
+ * Esta funcion carga los datos de los autos almacenados en el archivo 'cars.json' en un array.
+ * Adicionalmente, carga las marcas en el selector de marcas.
  * @event 'DOMContentLoaded'
  */
 function getCar(event){
@@ -69,11 +72,12 @@ function getCar(event){
         data.forEach(car => {
             cars.push(car)
         })
-    
-    fillMakeSelect();
-    if(localStorage.getItem('quotedCar') !== null){
-        loadQuotedCar();
-    }
+        // tengo que cargar el formulario dentro de esta llamada AJAX 
+        // porque la carga asincrona afecta al completado del mismo
+        fillMakeSelect();
+        if(localStorage.getItem('quotedCar') !== null){
+            loadQuotedCar();
+        }
     })
 }
 
@@ -175,20 +179,10 @@ function getMakes(){
 
     // utilizo un set porque no guarda repetidos
     const makes = new Set();
-    // console.log(cars)
-    // cars.forEach(function(entry){
-    //     console.log(entry)
-    // })
+
     cars.forEach(car => {
-        // console.log(car)
         makes.add(car.make);
-        // console.log(makes)
     });
-    // console.log(cars)
-    // console.log(cars.length)
-    // for(var i = 0; i < cars.length; i ++){
-    //     console.log(cars[i])
-    // }
 
     // convierto el set en un array para poder ordenarlo alfabeticamente
     return [...makes].sort();
@@ -297,10 +291,58 @@ function quoteCarInsurance(event){
     const year = yearSelect.options[yearSelect.selectedIndex].textContent;
     const gnc = !gncPriceInput.disabled;
     const gncPrice = gncPriceInput.value;
-
+    const price = getPrice(make, model, year);
     // creo un nuevo auto
-    const car = new Car(make, model, year, gnc, gncPrice);
+    const car = new Car(make, model, year, gnc, gncPrice, price);
 
     // guardo los datos del auto cotizado en localStorage
     localStorage.setItem('quotedCar', JSON.stringify(car));
+
+    // muestro los resultados
+    showResults(car);
+}
+
+
+function getPrice(make, model, year){
+    const searchCar = cars.filter(function(car){
+        return  car.make == make &&
+                car.model == model &&
+                car.year == year;
+    });
+    return searchCar[0].price;
+}
+
+
+function showResults(car){
+
+    // oculto formulario
+    $('#formContainer').hide();
+
+    // "traduzco" el bool para el gnc
+    const gnc = ((car.gnc) ? 'si' : 'no')
+
+    //calculo la suma asegurada
+    const total = car.price + Number(car.gncPrice);
+    
+    // actualizo los datos del auto en el resumen
+    carData.innerHTML = `
+        <p><strong>Marca</strong>: ${car.make}</p>
+        <p><strong>Modelo</strong>: ${car.model}</p>
+        <p><strong>Año</strong>: ${car.year}</p>
+        <p><strong>Gnc</strong>: ${gnc}</p>
+        <p><strong>Equipo GNC</strong>: $${car.gncPrice}</p>
+        <p><strong>Total cotizado</strong>: $${total}</p>
+    `
+
+    // actualizo las tarjetas de los planes
+    basicPlanCard.innerHTML = `
+        <h3>$${Math.trunc(700 + (total * 0.01))} / mes</h3>
+        <p>* Resp. Civil</p>
+    `
+    
+    fullPlanCard.innerHTML = `
+        <h3>$${Math.trunc(2500 + (total * 0.015))} / mes</h3>
+        <p>* TODO Riesgo</p>
+        <p>* Franquicia según frente de poliza</p>
+    `
 }

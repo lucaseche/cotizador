@@ -18,3 +18,7 @@ h1 {
   text-align: center;
   text-transform: uppercase;
 }
+
+.card-container {
+  height: 100%;
+}
