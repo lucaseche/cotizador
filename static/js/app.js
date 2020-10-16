@@ -297,9 +297,15 @@ function quoteCarInsurance(event){
 
     // guardo los datos del auto cotizado en localStorage
     localStorage.setItem('quotedCar', JSON.stringify(car));
+    
+    // genero los resultados
+    getResults(car);
+    
+    // oculto formulario
+    $('#formContainer').hide();
 
     // muestro los resultados
-    showResults(car);
+    $('#result').removeAttr('hidden');
 }
 
 
@@ -313,31 +319,29 @@ function getPrice(make, model, year){
 }
 
 
-function showResults(car){
+function getResults(car){
 
-    // oculto formulario
-    $('#formContainer').hide();
-
+    
     // "traduzco" el bool para el gnc
     const gnc = ((car.gnc) ? 'si' : 'no')
-
+    
     //calculo la suma asegurada
     const total = car.price + Number(car.gncPrice);
     
     // actualizo los datos del auto en el resumen
     carData.innerHTML = `
-        <p><strong>Marca</strong>: ${car.make}</p>
-        <p><strong>Modelo</strong>: ${car.model}</p>
-        <p><strong>Año</strong>: ${car.year}</p>
-        <p><strong>Gnc</strong>: ${gnc}</p>
-        <p><strong>Equipo GNC</strong>: $${car.gncPrice}</p>
-        <p><strong>Total cotizado</strong>: $${total}</p>
+    <p><strong>Marca</strong>: ${car.make}</p>
+    <p><strong>Modelo</strong>: ${car.model}</p>
+    <p><strong>Año</strong>: ${car.year}</p>
+    <p><strong>Gnc</strong>: ${gnc}</p>
+    <p><strong>Equipo GNC</strong>: $${car.gncPrice}</p>
+    <p><strong>Total cotizado</strong>: $${total}</p>
     `
-
+    
     // actualizo las tarjetas de los planes
     basicPlanCard.innerHTML = `
-        <h3>$${Math.trunc(700 + (total * 0.01))} / mes</h3>
-        <p>* Resp. Civil</p>
+    <h3>$${Math.trunc(700 + (total * 0.01))} / mes</h3>
+    <p>* Resp. Civil</p>
     `
     
     fullPlanCard.innerHTML = `
