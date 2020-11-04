@@ -64,7 +64,7 @@ function loadEventListeners(){
 /**
  * Esta funcion carga los datos de los autos almacenados en el archivo 'cars.json' en un array.
  * Adicionalmente, carga las marcas en el selector de marcas.
- * @event 'DOMContentLoaded'
+ * @event DOMContentLoaded
  */
 function getCar(event){
     
@@ -81,11 +81,10 @@ function getCar(event){
     })
 }
 
-
+/**
+ * Esta funcion completa los campos del formulario con los datos del auto cotizado previamente.
+ */
 function loadQuotedCar(){
-    /*
-    Esta funcion completa los campos del formulario con los datos del auto cotizado previamente.
-    */
 
     // obtengo el auto almacenado en localStorage
     const quotedCar = JSON.parse(localStorage.getItem('quotedCar'));
@@ -127,24 +126,21 @@ function loadQuotedCar(){
 }
 
 
+/**
+* Esta funcion completa el select de marcas.
+*/
 function fillMakeSelect(){
-    /*
-    Esta funcion completa el select de marcas.
-    Args:
-        makeSelect: objeto select de marcas.
-    */
 
     const makes = getMakes();
     fillSelect(makes, makeSelect);
 }
 
 
+/**
+* Esta funcion completa los modelos de auto para la marca seleccionada.
+* @event makeSelect.change
+*/
 function fillModelSelect(event){
-    /*
-    Esta funcion completa los modelos de auto para la marca seleccionada.
-    Args:
-        event: evento que dispara la ejecucion de la funcion.
-    */
     
     // reseteo cuando se cambia la marca
     modelSelect.innerHTML = '';
@@ -154,13 +150,11 @@ function fillModelSelect(event){
     modelSelect.dispatchEvent(changeEvent);
 }
 
-
+/**
+ * Esta funcion completa los modelos de auto para la marca seleccionada.
+ * @event modelSelect.change
+ */
 function fillYearSelect(event){
-    /*
-    Esta funcion completa los modelos de auto para la marca seleccionada.
-    Args:
-        event: evento que dispara la ejecucion de la funcion.
-    */
 
     // reseteo cuando se cambia el modelo
     yearSelect.innerHTML = '';
@@ -169,13 +163,11 @@ function fillYearSelect(event){
     fillSelect(years, yearSelect);
 }
 
-
+/**
+ * Esta funcion obtiene las marcas de autos del set de datos 'cars.js'.
+ * @returns Listado de marcas de autos (sin reperir). 
+ */
 function getMakes(){
-    /*
-    Esta funcion obtiene las marcas de autos del set de datos 'cars.js'.
-    Return:
-        makes: listado de marcas de autos (sin reperir).
-    */
 
     // utilizo un set porque no guarda repetidos
     const makes = new Set();
@@ -188,15 +180,12 @@ function getMakes(){
     return [...makes].sort();
 }
 
-
+/**
+ * Esta funcion obtiene los modelos de autos del set de datos 'cars.js' para la marca seleccionada.
+ * @param {string} selectedMake - Marca seleccionada.
+ * @returns {Array} Listado de modelos de auto para una marca seleccionada (sin reperir).   
+ */
 function getModels(selectedMake){
-    /*
-    Esta funcion obtiene los modelos de autos del set de datos 'cars.js' para la marca seleccionada.
-    Args:    
-        selectedMake: marca seleccionada.
-    Return:
-        models: listado de modelos de auto para una marca seleccionada (sin reperir).
-    */
 
     // utilizo un set porque no guarda repetidos
     const models = new Set();
@@ -211,15 +200,12 @@ function getModels(selectedMake){
     return [...models].sort();
 }
 
-
+/**
+ * Esta funcion obtiene los años de modelos de autos del set de datos 'cars.js' para el modelo seleccionada.
+ * @param {string} selectedModel - Modelo seleccionado.
+ * @returns {Array} Listado de años para un modelo seleccionado (sin reperir).
+ */
 function getYears(selectedModel){
-    /*
-    Esta funcion obtiene los años de modelos de autos del set de datos 'cars.js' para el modelo seleccionada.
-    Args:    
-        selectedModel: modelo seleccionado.
-    Return:
-        years: listado de años para un modelo seleccionado (sin reperir).
-    */
 
     // utilizo un set porque no guarda repetidos
     const years = new Set();
@@ -234,14 +220,12 @@ function getYears(selectedModel){
     return [...years].sort();
 }
 
-
+/**
+ * 
+ * @param {Array} arr - Listado de elementos. pueden ser marcas, modelos o años. 
+ * @param {HTMLSelectElement} select - Objeto select donde se van a cargar los elementos.
+ */
 function fillSelect(arr, select){
-    /*
-    Esta funcion completa un select con los elementos de un array.
-    Args:
-        arr: listado de elementos. pueden ser marcas, modelos o años.
-        select: objeto select donde se van a cargar los elementos.
-    */
 
     arr.forEach(element => {
         const option = document.createElement('option');
@@ -253,21 +237,21 @@ function fillSelect(arr, select){
     });
 }
 
-
+/**
+ * Esta funcion habilita el input de valor para el equipo gnc.
+ */
 function enableGncPriceInput(){
-    /*
-    Esta funcion habilita el input de valor para el equipo gnc.
-    */
+
     if(gncPriceInput.disabled == true){
         gncPriceInput.disabled = false;    
     }
 }
 
-
+/**
+ * Esta funcion deshabilita el input de precio para el equipo gnc y borra el valor de ser necesario.
+ */
 function disableGncPriceInput(){
-    /*
-    Esta funcion deshabilita el input de precio para el equipo gnc y borra el valor de ser necesario.
-    */
+
     if(gncPriceInput.disabled == false){
         gncPriceInput.disabled = true;    
     }
@@ -276,14 +260,11 @@ function disableGncPriceInput(){
     }
 }
 
-
+/**
+ * Esta funcion genera la cotizacion del seguro del auto.
+ * @event btnQuote.click
+ */
 function quoteCarInsurance(event){
-    /*
-    Esta funcion genera la cotizacion del seguro del auto.
-    Por el momento unicamente guarda los datos del auto en localStorage.
-    Args:
-        event: evento que dispara la ejecucion de la funcion. 
-    */
 
     // obtengo los valores actuales del formulario
     const make = makeSelect.options[makeSelect.selectedIndex].textContent;
@@ -308,8 +289,15 @@ function quoteCarInsurance(event){
     $('#result').removeAttr('hidden');
 }
 
-
+/**
+ * Esta funcion obtiene el precio de un auto almacenado en la db.
+ * @param {string} make - Marca del auto buscado
+ * @param {string} model - Modelo del auto buscado
+ * @param {string} year - Año del auto buscado
+ * @returns {number} Precio del auto 
+ */
 function getPrice(make, model, year){
+
     const searchCar = cars.filter(function(car){
         return  car.make == make &&
                 car.model == model &&
@@ -318,10 +306,12 @@ function getPrice(make, model, year){
     return searchCar[0].price;
 }
 
-
+/**
+ * Esta funcion genera la vista con las tarjetas de planes de seguro.
+ * @param {Car} car - Objeto con las propiedades del auto que quiero cotizar. 
+ */
 function getResults(car){
 
-    
     // "traduzco" el bool para el gnc
     const gnc = ((car.gnc) ? 'si' : 'no')
     
