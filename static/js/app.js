@@ -277,9 +277,7 @@ function quoteCarInsurance(event){
     getResults(car);
     
     // oculto formulario
-    // $('#formContainer').hide("slow");
     $('#formContainer').slideUp();
-    // $('#formContainer').;
 
     // muestro los resultados
     $('#result').show();
@@ -349,6 +347,5 @@ function backToQuote(){
     $('#result').hide();
     
     // muestro el formulario
-    // $('#formContainer').removeAttr('hidden');
     $('#formContainer').slideDown();
 }
