@@ -1,4 +1,3 @@
-// esta clase podria estar en otro archivo
 class Car {
     constructor(make, model, year, gnc, gncPrice, price) {
         this.make = make;
@@ -10,28 +9,8 @@ class Car {
     }
 }
 
-/* TO DO
 
-[X] - Cargar datos en el selector de marca
-[X] - Obtener la marca seleccionada con un evento 'change'
-[X] - Cargar datos en el selector de modelo a partir de la marca elegida  
-[X] - Obtener el modelo seleccionado con un evento 'change'
-[X] - Cargar datos en el selector de año a partir del modelo elegido  
-[X] - Obtener el año seleccionado con un evento 'change'
-[X] - Capturar el submit del boton cotizar
-[X] - Guardar datos del auto cotizado en el localStorage en el submit del boton cotizar
-[X] - Obtener los datos del ultimo auto cotizado guardado en el localStorage si es que hay uno
-[X] - BUG: el precio del equipo no se carga en el formulario si esta en localStorage
-[X] - Pasar la "db" de autos a un JSON
-[X] - Cargar la "db" de autos en una variable utilizando Ajax
-[X] - Agregar JQuery
-[ ] - Agregar animaciones
-[ ] - Cambiar estilo de comentarios por JSDoc
-[X] - Agregar validador numerico al campo de valor del equipo gnc
-[X] - Definir template para los planes de cotizacion
-
-*/
-
+// cargo los componentes UI
 const makeSelect = document.querySelector('#makeSelect');
 const modelSelect = document.querySelector('#modelSelect');
 const yearSelect = document.querySelector('#yearSelect');
@@ -42,6 +21,7 @@ const btnQuote = document.querySelector('#btnQuote');
 const carData = document.querySelector('#carData');
 const fullPlanCard = document.querySelector('#fullPlanCard');
 const basicPlanCard = document.querySelector('#basicPlanCard');
+const btnBack = document.querySelector('#btnBack');
 const cars = [];
 
 
@@ -49,17 +29,22 @@ const cars = [];
 const changeEvent = document.createEvent('HTMLEvents');
 changeEvent.initEvent('change', false, true);
 
+
 // cargo todos los events listeners
 loadEventListeners();
 
+
 function loadEventListeners(){
     document.addEventListener('DOMContentLoaded', getCar);
+    backToQuote(); // esto elimina la vista de resultados cuando se carga la pagina
     makeSelect.addEventListener('change', fillModelSelect);
     modelSelect.addEventListener('change', fillYearSelect);
     yesGncInput.addEventListener('click', enableGncPriceInput);
     noGncInput.addEventListener('click', disableGncPriceInput);
     btnQuote.addEventListener('click', quoteCarInsurance);
+    btnBack.addEventListener('click', backToQuote);
 }
+
 
 /**
  * Esta funcion carga los datos de los autos almacenados en el archivo 'cars.json' en un array.
@@ -80,6 +65,7 @@ function getCar(event){
         }
     })
 }
+
 
 /**
  * Esta funcion completa los campos del formulario con los datos del auto cotizado previamente.
@@ -150,6 +136,7 @@ function fillModelSelect(event){
     modelSelect.dispatchEvent(changeEvent);
 }
 
+
 /**
  * Esta funcion completa los modelos de auto para la marca seleccionada.
  * @event modelSelect.change
@@ -162,6 +149,7 @@ function fillYearSelect(event){
     const years = getYears(selectedModel);
     fillSelect(years, yearSelect);
 }
+
 
 /**
  * Esta funcion obtiene las marcas de autos del set de datos 'cars.js'.
@@ -179,6 +167,7 @@ function getMakes(){
     // convierto el set en un array para poder ordenarlo alfabeticamente
     return [...makes].sort();
 }
+
 
 /**
  * Esta funcion obtiene los modelos de autos del set de datos 'cars.js' para la marca seleccionada.
@@ -200,6 +189,7 @@ function getModels(selectedMake){
     return [...models].sort();
 }
 
+
 /**
  * Esta funcion obtiene los años de modelos de autos del set de datos 'cars.js' para el modelo seleccionada.
  * @param {string} selectedModel - Modelo seleccionado.
@@ -220,6 +210,7 @@ function getYears(selectedModel){
     return [...years].sort();
 }
 
+
 /**
  * 
  * @param {Array} arr - Listado de elementos. pueden ser marcas, modelos o años. 
@@ -237,6 +228,7 @@ function fillSelect(arr, select){
     });
 }
 
+
 /**
  * Esta funcion habilita el input de valor para el equipo gnc.
  */
@@ -246,6 +238,7 @@ function enableGncPriceInput(){
         gncPriceInput.disabled = false;    
     }
 }
+
 
 /**
  * Esta funcion deshabilita el input de precio para el equipo gnc y borra el valor de ser necesario.
@@ -259,6 +252,7 @@ function disableGncPriceInput(){
         gncPriceInput.value = '';
     }
 }
+
 
 /**
  * Esta funcion genera la cotizacion del seguro del auto.
@@ -283,11 +277,14 @@ function quoteCarInsurance(event){
     getResults(car);
     
     // oculto formulario
-    $('#formContainer').hide();
+    // $('#formContainer').hide("slow");
+    $('#formContainer').slideUp();
+    // $('#formContainer').;
 
     // muestro los resultados
-    $('#result').removeAttr('hidden');
+    $('#result').show();
 }
+
 
 /**
  * Esta funcion obtiene el precio de un auto almacenado en la db.
@@ -305,6 +302,7 @@ function getPrice(make, model, year){
     });
     return searchCar[0].price;
 }
+
 
 /**
  * Esta funcion genera la vista con las tarjetas de planes de seguro.
@@ -339,4 +337,18 @@ function getResults(car){
         <p>* TODO Riesgo</p>
         <p>* Franquicia según frente de poliza</p>
     `
+}
+
+
+/**
+ * Esta funcion vuelve a la vista del cotizador  
+ */
+function backToQuote(){
+    
+    // oculot los resultados
+    $('#result').hide();
+    
+    // muestro el formulario
+    // $('#formContainer').removeAttr('hidden');
+    $('#formContainer').slideDown();
 }
