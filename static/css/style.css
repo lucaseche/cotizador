@@ -22,7 +22,6 @@ body {
 
 .container {
     margin-top: 10%;
-    /* margin: 10%; */
     background-color: rgba(0,0,0,0.7);
     border-radius: 5px;
 }
@@ -35,8 +34,6 @@ h1 {
 
 .card-container {
   height: 100%;
-  /* text-align: left; */
-  /* text-align: center; */
 }
 
 .card-container h1{
